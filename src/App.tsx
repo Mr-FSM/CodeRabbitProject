@@ -3,6 +3,7 @@ import './App.css'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [activeTab, setActiveTab] = useState('会员直播') // 添加tab状态管理
 
   // 置顶权益数据
   const topRights = [
@@ -12,10 +13,9 @@ function App() {
     { name: '金字塔', icon: '⚡' }
   ]
 
-  // 主要功能模块
-  const mainSections = [
-    {
-      title: '会员直播',
+  // 主要功能模块数据
+  const tabContent = {
+    '会员直播': {
       items: [
         '文字直播',
         '文字直播文字直...',
@@ -25,8 +25,7 @@ function App() {
         '视频直播'
       ]
     },
-    {
-      title: '独家观点', 
+    '独家观点': {
       items: [
         '专题观点',
         '专题观点专题观...',
@@ -36,18 +35,34 @@ function App() {
         '栏目观点'
       ]
     },
-    {
-      title: '大咖课程',
+    '大咖课程': {
       items: [
         '课程',
         '课程',
-        '课程'
+        '课程',
+        '高级课程',
+        '专业课程',
+        '实战课程'
+      ]
+    },
+    '智投工具': {
+      items: [
+        '投资分析',
+        '风险评估',
+        '收益预测',
+        '资产配置',
+        '量化策略',
+        '市场监控'
       ]
     }
-  ]
+  }
 
   const handleLogin = () => {
     setIsLoggedIn(!isLoggedIn)
+  }
+
+  const handleTabClick = (tabName: string) => {
+    setActiveTab(tabName)
   }
 
   return (
@@ -97,28 +112,31 @@ function App() {
 
       {/* 主功能导航 */}
       <div className="main-nav">
-        <div className="nav-item active">会员直播</div>
-        <div className="nav-item">独家观点</div>
-        <div className="nav-item">大咖课程</div>
-        <div className="nav-item">智投工具</div>
-      </div>
-
-      {/* 功能模块内容 */}
-      <div className="content-sections">
-        {mainSections.map((section, sectionIndex) => (
-          <div key={sectionIndex} className="content-section">
-            <h3 className="content-title">{section.title}</h3>
-            <div className="content-grid">
-              {section.items.map((item, itemIndex) => (
-                <div key={itemIndex} className="content-item">
-                  <div className="item-content">
-                    <span className="item-text">{item}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {Object.keys(tabContent).map((tabName) => (
+          <div 
+            key={tabName}
+            className={`nav-item ${activeTab === tabName ? 'active' : ''}`}
+            onClick={() => handleTabClick(tabName)}
+          >
+            {tabName}
           </div>
         ))}
+      </div>
+
+      {/* 当前选中tab的内容 */}
+      <div className="content-sections">
+        <div className="content-section">
+          <h3 className="content-title">{activeTab}</h3>
+          <div className="content-grid">
+            {tabContent[activeTab as keyof typeof tabContent].items.map((item, itemIndex) => (
+              <div key={itemIndex} className="content-item">
+                <div className="item-content">
+                  <span className="item-text">{item}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
