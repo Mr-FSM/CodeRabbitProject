@@ -69,7 +69,7 @@ function App() {
     <div className="app">
       {/* 主标题 */}
       <div className="main-header">
-        <h1 className="app-title">超级投资家</h1>
+        <h1 className="app-title">超级投资家1</h1>
       </div>
 
       {/* 用户信息区域 */}
